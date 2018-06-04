@@ -1,0 +1,12 @@
+header {
+    margin: 0.5em 1em;
+}
+
+section {
+    margin: 0.5em 1em;
+    border: 1px solid lightgray; 
+}
+
+.program-input .CodeMirror {
+    background-color: lavenderblush;
+}

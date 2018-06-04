@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block body %}
+<header>
+  <h2>The Zion Playground</h2>
+  <button data-op="run">Run</button>
+  <button data-op="fmt">Format</button>
+  <button data-op="share" disabled="disabled">Share</button>
+  <button data-op="go-demos">Demos</button>
+  <button data-op="go-about">About</button>
+</header>
+
+<section class="program-input">
+  <textarea id="program-input">{{ program }}</textarea>
+</section>
+
+<section class="program-output">
+  <textarea id="program-output">{{ output }}</textarea>
+</section>
+{% endblock %}
+
+
+{% block footer_resources %}
+{{ super() }}
+
+<script>
+  var inputTextarea = document.getElementById('program-input');
+  var outputTextarea = document.getElementById('program-output');
+  var programEditor = CodeMirror.fromTextArea(inputTextarea, {
+	lineNumbers: true,
+  });
+  var resultEditor = CodeMirror.fromTextArea(outputTextarea, {
+	lineNumbers: true,
+	readOnly: true,
+	lineNumberFormatter: function(n) {
+	  return '[' + n + ']>';
+	},
+  });
+
+  $(function() {
+	$("button[data-op]").on("click", function(ev) {
+	  var op = $(ev.currentTarget).data('op');
+	  doOp(op);
+	});
+  });
+
+  function doOp(op) {
+	  switch (op) {
+		case "run":
+		  runProgram();
+		  break;
+
+		case "fmt":
+		  formatProgram();
+		  break;
+
+		case "go-demos":
+		  window.location = "/demos"
+		  break; 
+
+		case "go-about":
+		  window.location = "/about"
+		  break; 
+
+		default:
+		  console.log("Unrecognized data-op: " + op);
+	  }
+  }
+
+  function readProgramContents() {
+	return programEditor.getValue();
+  }
+
+  function setProgramContents(text) {
+	programEditor.setValue(text);
+  }
+
+  function setOutputContents(text) {
+	resultEditor.setValue(text);
+  }
+
+  function runProgram() {
+	var programText = readProgramContents();
+	var result = $.post({
+	  url: "/rpc/run",
+	  dataType: "json",
+	  data: {
+		program: programText,
+	  },
+	});
+	result.done(function(resp) {
+	  setOutputContents(resp.output);
+	});
+  }
+
+  function formatProgram() {
+	var programText = readProgramContents();
+	var result = $.post({
+	  url: "/rpc/fmt",
+	  dataType: "json",
+	  data: {
+		program: programText,
+	  },
+	});
+	result.done(function(resp) {
+	  setProgramContents(resp.formatted);
+	});
+  }
+</script>
+{% endblock %}

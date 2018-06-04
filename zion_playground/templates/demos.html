@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block body %}
+<section>
+  <ul>
+	{% for demo in demos %}
+	<li>
+	  <a href="/demos/{{ demo.slug }}">{{ demo.title }}</a>
+	</li>
+	{% endfor %}
+  </ul>
+</section>
+{% endblock %}

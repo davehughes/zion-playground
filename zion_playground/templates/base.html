@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>The Zion Playground</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}"/>
+
+    {% block header_resources %}
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% endblock %}
+  </head>
+
+  <body>
+    {% block body %}{% endblock %}
+    {% block footer_resources %}{% endblock %}
+  </body>
+</html>
