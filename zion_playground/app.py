@@ -6,7 +6,7 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 def main():
-    program = HELLO_WORLD
+    program = demos.DEMOS_BY_SLUG['hello-world']['program']
     return flask.render_template('playground.html', **{
         'program': program,
         })

@@ -73,3 +73,5 @@ fn main() {
 '''
     },
 ]
+
+DEMOS_BY_SLUG = {d['slug']: d for d in DEMOS}

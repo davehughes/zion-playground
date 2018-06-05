@@ -20,20 +20,20 @@ serve:
 .PHONY: docker-build
 docker-build:
 	docker build \
-		--tag zion-playground:latest \
+		--tag zionlang/playground:latest \
 		--file docker/Dockerfile \
 		.
 
 .PHONY: docker-run
-docker-run:
-	docker run -it \
+docker-run: docker-build
+	docker run \
 		--publish $(FLASK_PORT_LOCAL):$(FLASK_PORT) \
-		zion-playground:latest
+		zionlang/playground:latest
 
 .PHONY: docker-dev-build
 docker-dev-build:
 	docker build \
-		--tag zion-playground:dev \
+		--tag zionlang/playground:dev \
 		--file docker/Dockerfile.dev \
 		.
 
@@ -43,7 +43,7 @@ docker-dev-run: docker-dev-build
 	docker run -it \
 		--mount type=bind,source=$(PROJECT_ROOT),target=/opt/zion-playground \
 		--publish $(FLASK_PORT_LOCAL):$(FLASK_PORT) \
-		zion-playground:dev
+		zionlang/playground:dev
 
 .PHONY: clean
 clean:
